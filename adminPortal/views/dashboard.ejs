@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/admin/public/css/style.css">
+    <title>City Rank | Admin </title>
+</head>
+<body>
+    <main>
+        <nav>
+            <div class="nl"></div>
+            <div class="nr">
+                <a href="/admin">Home</a>
+                <a href="/admin/login">Login</a>
+            </div>
+        </nav>
+        <div id="page1">
+            <div id="pg1-container">
+                <h1>Admin Dashboard</h1>
+            </div>
+        </div>
+         <div id="copywright">
+            <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
+        </div>
+    </main>
+    <script>
+        const currentYear = new Date().getFullYear();
+        document.getElementById('year').textContent = currentYear;
+    </script>
+    <script src="/admin/js/script.js"></script>
+</body>
+</html>
+        

@@ -1,0 +1,112 @@
+*{
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+}
+html,body{
+    height: 100%;
+    width: 100%;
+}
+
+main{
+    height: auto;
+    width: 100vw;
+    overflow-x: hidden;
+}
+
+#page1{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#pg1-container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2vh;
+}
+#pg1-container h1{
+    font-size: 10vh;
+    color: #111;
+    font-weight: 900;
+}
+#pg1-container h2{
+    font-size: 4vh;
+    color: #3b3a3a;
+    font-weight: 900;
+}
+#pg1-container form
+{
+    height: auto;
+    width: 30vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1vh;
+    background-color: #111;
+    border-radius: 5px;
+    padding: 2% 1%;
+}
+#pg1-container form input{
+    height:5vh;
+    width: 90%;
+}
+
+#pg1-container form button{
+    height:5vh;
+    width: 90%;
+    background-color: rgb(52, 55, 255);
+    border: none;
+    border-radius: 5px;
+    color: wheat;
+    font-size: 900;
+    font-size: 2vh;
+}
+#pg1-container p, #pg1-container a
+{
+    color: #111;
+    font-size: 2vh;
+    font-weight: 600;
+}
+nav{
+    height: 10vh;
+    width: 100vw;
+    background-color: #111;
+    color: #dadada;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+}
+.nr{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2vw;
+    padding: 0 4% 0 0;
+}
+.nr a{
+    text-decoration: none;
+    font-size: 2vh;
+    color: #dadada;
+    font-weight: 800;
+}
+#copywright
+{
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #111;
+}
+#copywright p{
+    font-size: 2vh;
+    font-weight: 900;
+    color: #dadada;
+}

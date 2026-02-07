@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/style.css">
+    <title>City Rank | Citizen </title>
+</head>
+<body>
+    <main>
+        <nav>
+            <div class="nl"></div>
+            <div class="nr">
+                <a href="/">Home</a>
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            </div>
+        </nav>
+        <div id="page1">
+            <div id="pg1-container">
+                <h2>Citizen Login</h2>
+                <form action="/login" method="POST">
+                    <input type="email" name="email" placeholder="Email" required /><br><br>
+                    <input type="password" name="password" placeholder="Password" required /><br><br>
+
+                    <button type="submit">Login</button>
+                </form>
+                <p>Not registered? <a href="/register">Register Here</a></p>
+            </div>
+        </div>
+        <div id="copywright">
+            <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
+        </div>
+    </main>
+    <script>
+        const currentYear = new Date().getFullYear();
+        document.getElementById('year').textContent = currentYear;
+    </script>
+    <script src="/js/script.js"></script>
+</body>
+</html>
