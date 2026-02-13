@@ -19,7 +19,20 @@
         </nav>
         <div id="page1">
             <div id="pg1-container">
-                <h1>Admin Dashboard</h1>
+                <h2>Complaint Details</h2>
+
+                <p><strong>Location:</strong> <%= complaint.locationText %></p>
+                <p><strong>Status:</strong> <%= complaint.status %></p>
+                <p><strong>Message:</strong> <%= complaint.message %></p>
+
+                <h3>Before Image</h3>
+                <img src="<%= complaint.beforeImage %>" width="300">
+
+                <form action="/admin/resolve/<%= complaint._id %>" method="POST" enctype="multipart/form-data">
+                <label>Upload After Repair Image:</label>
+                <input type="file" name="afterImage" required>
+                <button type="submit">Mark as Resolved</button>
+                </form>
             </div>
         </div>
          <div id="copywright">

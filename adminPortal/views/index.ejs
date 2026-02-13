@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/admin/public/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <title>City Rank | Admin </title>
 </head>
 <body>
@@ -21,6 +21,17 @@
                 <h1>ADMIN PORTAL</h1>
             </div>
         </div>
+         <div id="page2">
+            <div id="pg2-container">
+                <h2>Top 3 Wards</h2>
+                <% topWards.forEach(ward => { %>
+                <p>
+                    Rank <%= ward.rank %> — Ward <%= ward.wardNumber %> (Score: <%= ward.score %>)
+                </p>
+                <% }) %>
+
+                <a href="/leaderboard">View Full Rankings</a>
+            </div>
          <div id="copywright">
             <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
         </div>

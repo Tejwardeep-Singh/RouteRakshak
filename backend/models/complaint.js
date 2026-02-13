@@ -1,43 +1,71 @@
 const mongoose = require("mongoose");
 
-const ComplaintSchema = new mongoose.Schema(
-  {
-    citizen_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Citizen",
-      required: true
-    },
+const complaintSchema = new mongoose.Schema({
+  userName:String,
+  title: String,
+  mobile:Number,
+  description: String,
+  wardNumber: Number,
+  message: {
+    type: String,
+    required: true
+  },
 
-    ward_id: {
-      type: Number,
-      required: true
-    },
+  locationText: {
+    type: String,
+    required: true
+  },
 
+
+  location: {
     type: {
       type: String,
-      enum: ["pothole", "bad_road", "water_logging", "accident_prone"],
+      enum: ["Point"],
       required: true
     },
-
-    severity: {
-      type: Number,
-      min: 1,
-      max: 5,
+    coordinates: {
+      type: [Number], 
       required: true
-    },
-
-    location: {
-      lat: Number,
-      lng: Number
-    },
-
-    status: {
-      type: String,
-      enum: ["pending", "in_progress", "resolved"],
-      default: "pending"
     }
   },
-  { timestamps: true }
-);
 
-module.exports = mongoose.model("Complaint", ComplaintSchema);
+  roadGeometry: {
+    type: {
+      type: String,
+      enum: ["LineString"]
+    },
+    coordinates: {
+      type: [[Number]]
+    }
+  },
+
+
+  beforeImage: {
+    type: String
+  },
+
+ 
+  afterImage: {
+    type: String
+  },
+
+
+  status: {
+    type: String,
+    enum: ["pending", "in-progress", "resolved", "completed"],
+    default: "pending"
+  },
+
+
+  verifiedByCitizen: {
+    type: Boolean,
+    default: false
+  }
+
+}, { timestamps: true });
+
+complaintSchema.index({ location: "2dsphere" });
+
+module.exports =
+  mongoose.models.Complaint ||
+  mongoose.model("Complaint", complaintSchema);

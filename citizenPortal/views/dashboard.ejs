@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <title>City Rank | Citizen </title>
 </head>
 <body>
@@ -12,14 +12,50 @@
             <div class="nl"></div>
             <div class="nr">
                 <a href="/">Home</a>
-                <a href="/login">Login</a>
-                <a href="/register">Register</a>
+                <a href="/citizenComplaint">Complaint</a>
+                <a href="/map">Maps</a>
             </div>
         </nav>
         <div id="page1">
             <div id="pg1-container">
                 <h1>Citizen Dashboard</h1>
                 <h2>Welcome <%= citizen.name %> , Ward: <%= citizen.ward_id %></h2>
+                <p>Your Ward Rank: <%= ward.rank %></p>
+                <a href="/leaderboard">View All Ranks</a>
+            </div>
+        </div>
+        <div id="page2">
+            <div id="pg2-container">
+                <h2>Your Complaints</h2>
+                <% complaints.forEach(complaint => { %>
+
+                <div class="complaint-card">
+
+                    <p><strong>Location:</strong> <%= complaint.locationText %></p>
+                    <p><strong>Status:</strong> <%= complaint.status %></p>
+
+                    <p><strong>Message:</strong> <%= complaint.message %></p>
+
+                    <img src="<%= complaint.beforeImage %>" width="200">
+
+                    <% if (complaint.status === "resolved") { %>
+
+                        <h4>Repair Image:</h4>
+                        <img src="<%= complaint.afterImage %>" width="200">
+
+                        <form action="/verify/<%= complaint._id %>" method="POST">
+                        <button type="submit">Verify</button>
+                        </form>
+
+                    <% } %>
+
+                    <% if (complaint.status === "completed") { %>
+                        <p style="color: green;">✔ Verified & Completed</p>
+                    <% } %>
+
+  </div>
+
+<% }) %>
             </div>
         </div>
         <div id="copywright">

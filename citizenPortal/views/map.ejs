@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="/css/style.css">
     <title>City Rank | Citizen </title>
 </head>
 <body>
@@ -12,13 +13,13 @@
             <div class="nl"></div>
             <div class="nr">
                 <a href="/">Home</a>
-                <a href="/login">Login</a>
-                <a href="/register">Register</a>
+                <a href="/citizenComplaint">Complaint</a>
             </div>
         </nav>
         <div id="page1">
             <div id="pg1-container">
-                <h1>CITIZEN PORTAL</h1>
+                <h1>Amritsar Ward Map</h1>
+                <div id="map"></div>
             </div>
         </div>
         <div id="copywright">
@@ -29,6 +30,33 @@
         const currentYear = new Date().getFullYear();
         document.getElementById('year').textContent = currentYear;
     </script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
     <script src="/js/script.js"></script>
+    <script>
+        const map = L.map('map').setView([31.6340, 74.8723], 11);
+
+    // Base map (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Load ward GeoJSON
+    fetch('/data/amritsar_wards_final.geojson')
+      .then(res => res.json())
+      .then(data => {
+        L.geoJSON(data, {
+          style: {
+            color: '#2c3e50',
+            weight: 1,
+            fillColor: '#a3cb38',
+            fillOpacity: 0.6
+          }
+        }).addTo(map);
+      })
+      .catch(err => {
+        console.error('Failed to load ward data:', err);
+      });
+    </script>
 </body>
 </html>

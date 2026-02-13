@@ -20,6 +20,7 @@ main{
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 10vh;
 }
 #pg1-container{
     height: 100%;
@@ -110,3 +111,63 @@ nav{
     font-weight: 900;
     color: #dadada;
 }
+#map {
+      height: 80vh;
+      width: 100%;
+    }
+
+.label
+{
+    height: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2%;
+}
+.label label{
+    width: 50%;
+    color:white;
+}
+.label input, .label textarea{
+    width: 50%;
+    align-self: flex-end;
+}
+
+
+
+
+.leaderboard-container {
+    width: 80%;
+    margin: auto;
+    margin-top: 40px;
+    }
+
+    .ward-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background: #f5f5f5;
+    font-size: 18px;
+    }
+
+    .top1 { background: gold; }
+    .top2 { background: silver; }
+    .top3 { background: #cd7f32; color: white; }
+
+    .rank-badge {
+    font-weight: bold;
+    }
+
+    .view-dashboard {
+    text-align: center;
+    margin-top: 30px;
+    }
+
+    .view-dashboard a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #0077ff;
+    }

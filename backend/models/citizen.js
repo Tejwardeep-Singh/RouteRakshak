@@ -8,6 +8,10 @@ const CitizenSchema = new mongoose.Schema(
       trim: true
     },
 
+    mobile:{
+      type:Number,
+      required:true
+    },
     email: {
       type: String,
       required: true,

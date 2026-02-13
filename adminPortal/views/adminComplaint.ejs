@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="/css/style.css">
+    <title>City Rank | Admin </title>
+</head>
+<body>
+    <main>
+        <nav>
+            <div class="nl"></div>
+            <div class="nr">
+                <a href="/admin">Home</a>
+                <a href="/admin/login">Login</a>
+            </div>
+        </nav>
+        <div id="page1">
+            <div id="pg1-container">
+                <h2>Ward <%= ward.wardNumber %> Complaints</h2>
+
+            <!-- 🗺️ Map -->
+            <div id="map"></div>
+
+            <!-- 📋 Complaint Tiles -->
+            <div>
+            <% if (complaints.length === 0) { %>
+                <p>No complaints found.</p>
+            <% } %>
+
+            <% complaints.forEach(complaint => { %>
+                <div class="complaint-tile">
+
+                    <h3><%= complaint.locationText %></h3>
+
+                    <span class="status-badge <%= complaint.status %>">
+                        <%= complaint.status %>
+                    </span>
+
+                    <p><%= complaint.message %></p>
+
+                    <a href="/admin/complaint/<%= complaint._id %>">
+                        View Details →
+                    </a>
+
+                </div>
+            <% }) %>
+            </div>
+            <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+            <script id="wardData" type="application/json">
+  <%- JSON.stringify(ward.geometry) %>
+</script>
+
+    <script>
+    const map = L.map('map').setView([31.6340, 74.8723], 12);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18
+    }).addTo(map);
+
+    const wardGeoJSON = JSON.parse(
+        document.getElementById("wardData").textContent
+    );
+
+    L.geoJSON(wardGeoJSON, {
+        style: {
+            color: "red",
+            weight: 3,
+            fillOpacity: 0.3
+        }
+    }).addTo(map);
+    </script>
+
+            </div>
+        </div>
+         <div id="copywright">
+            <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
+        </div>
+    </main>
+    <script>
+        const currentYear = new Date().getFullYear();
+        document.getElementById('year').textContent = currentYear;
+    </script>
+    
+    <script src="/admin/js/script.js"></script>
+</body>
+</html>
+        

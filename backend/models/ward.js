@@ -1,38 +1,42 @@
 const mongoose = require("mongoose");
 
-const WardSchema = new mongoose.Schema(
-  {
-    ward_id: {
-      type: Number,
-      required: true,
-      unique: true
-    },
+const wardSchema = new mongoose.Schema({
+  wardNumber: Number,
+  name: String,
 
-    ward_name: {
+  complaintsCount: {
+    type: Number,
+    default: 0
+  },
+
+  completedCount: {
+    type: Number,
+    default: 0
+  },
+  rank: {
+    type: Number,
+    default: 0
+  },
+
+  score: {
+    type: Number,
+    default: 0
+  },
+
+  geometry: {
+    type: {
       type: String,
+      enum: ["Polygon", "MultiPolygon"],
       required: true
     },
-
-    total_complaints: {
-      type: Number,
-      default: 0
-    },
-
-    resolved_complaints: {
-      type: Number,
-      default: 0
-    },
-
-    road_health_score: {
-      type: Number,
-      default: 100
-    },
-
-    rank: {
-      type: Number
+    coordinates: {
+      type: Array,
+      required: true
     }
-  },
-  { timestamps: true }
-);
+  }
+});
 
-module.exports = mongoose.model("Ward", WardSchema);
+
+wardSchema.index({ geometry: "2dsphere" });
+
+module.exports = mongoose.model("Ward", wardSchema);

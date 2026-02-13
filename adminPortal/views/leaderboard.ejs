@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>City Rank | Citizen </title>
+</head>
+<body>
+    <main>
+        <nav>
+            <div class="nl"></div>
+            <div class="nr">
+                <a href="/admin">Home</a>
+            </div>
+        </nav>
+        <div id="page1">
+            <div id="pg1-container">
+                 <h1 style="text-align:center; margin-top:40px;">
+                    🏆 City Ward Rankings
+                </h1>
+
+                <div class="leaderboard-container">
+
+                    <% wards.forEach((ward, index) => { %>
+
+                        <div class="ward-row 
+                            <%= ward.rank === 1 ? 'top1' : '' %>
+                            <%= ward.rank === 2 ? 'top2' : '' %>
+                            <%= ward.rank === 3 ? 'top3' : '' %>
+                        ">
+
+                            <div class="rank-badge">
+                                #<%= ward.rank %>
+                            </div>
+
+                            <div>
+                                Ward <%= ward.wardNumber %>
+                            </div>
+
+                            <div>
+                                Score: <%= ward.score %>
+                            </div>
+
+                            <div>
+                                Complaints: <%= ward.complaintsCount || 0 %>
+                            </div>
+
+                        </div>
+
+                    <% }) %>
+
+                    <div class="view-dashboard">
+                        <a href="/">← Back to Home</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="copywright">
+            <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
+        </div>
+    </main>
+    <script>
+        const currentYear = new Date().getFullYear();
+        document.getElementById('year').textContent = currentYear;
+    </script>
+    <script src="/js/script.js"></script>
+</body>
+</html>

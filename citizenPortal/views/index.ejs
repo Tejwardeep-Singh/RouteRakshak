@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <title>City Rank | Citizen </title>
 </head>
 <body>
@@ -19,6 +19,18 @@
         <div id="page1">
             <div id="pg1-container">
                 <h1>CITIZEN PORTAL</h1>
+            </div>
+        </div>
+        <div id="page2">
+            <div id="pg2-container">
+                <h2>Top 3 Wards</h2>
+                <% topWards.forEach(ward => { %>
+                <p>
+                    Rank <%= ward.rank %> — Ward <%= ward.wardNumber %> (Score: <%= ward.score %>)
+                </p>
+                <% }) %>
+
+                <a href="/leaderboard">View Full Rankings</a>
             </div>
         </div>
         <div id="copywright">

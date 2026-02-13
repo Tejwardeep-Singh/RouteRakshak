@@ -3,24 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <title>City Rank | Citizen </title>
 </head>
 <body>
     <main>
-        <nav>
-            <div class="nl"></div>
-            <div class="nr">
-                <a href="/">Home</a>
-                <a href="/login">Login</a>
-                <a href="/register">Register</a>
-            </div>
-        </nav>
         <div id="page1">
             <div id="pg1-container">
                 <h2>Citizen Registration</h2>
                 <form action="/register" method="POST">
                     <input type="text" name="name" placeholder="Name" required /><br><br>
+                    <input type="number" name="mobile" placeholder="mobile" required /><br><br>
                     <input type="email" name="email" placeholder="Email" required /><br><br>
                     <input type="number" name="ward_id" placeholder="Ward ID" required /><br><br>
                     <input type="password" name="password" placeholder="Password" required /><br><br>
