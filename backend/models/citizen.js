@@ -23,7 +23,7 @@ const CitizenSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-
+    area:String,
     ward_id: {
       type: Number,
       required: true

@@ -58,20 +58,45 @@ router.post("/verify/:id", citizenAuth, async (req, res) => {
 
 
 router.post("/register", async (req, res) => {
-  const { name,mobile, email, password, ward_id } = req.body;
+
+  const { name,area,mobile, email, password, latitude, longitude } = req.body;
+
+  if (!latitude || !longitude) {
+    return res.send("Location is required for registration");
+  }
+
+  const lat = parseFloat(latitude);
+  const lng = parseFloat(longitude);
+
+  const ward = await Ward.findOne({
+    geometry: {
+      $geoIntersects: {
+        $geometry: {
+          type: "Point",
+          coordinates: [lng, lat]
+        }
+      }
+    }
+  });
+
+  if (!ward) {
+    return res.send("No ward found for your location");
+  }
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
   await Citizen.create({
     name,
-    mobile,
     email,
+    mobile,
+    area,
     password: hashedPassword,
-    ward_id
+    ward_id: ward.wardNumber
   });
 
   res.redirect("/login");
 });
+
 
 
 router.post("/login", async (req, res) => {
