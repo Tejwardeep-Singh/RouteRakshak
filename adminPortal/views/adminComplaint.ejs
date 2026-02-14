@@ -26,11 +26,11 @@
 
             <!-- 📋 Complaint Tiles -->
             <div>
-            <% if (complaints.length === 0) { %>
+            <% if (complaints2.length === 0) { %>
                 <p>No complaints found.</p>
             <% } %>
 
-            <% complaints.forEach(complaint => { %>
+            <% complaints2.forEach(complaint => { %>
                 <div class="complaint-tile">
 
                     <h3><%= complaint.locationText %></h3>
@@ -48,10 +48,19 @@
                 </div>
             <% }) %>
             </div>
-            <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-            <script id="wardData" type="application/json">
-  <%- JSON.stringify(ward.geometry) %>
-</script>
+            </div>
+        </div>
+         <div id="copywright">
+            <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
+        </div>
+    </main>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script id="wardData" type="application/json">
+        <%- JSON.stringify(ward.geometry) %>
+    </script>
+    <script id="complaintsData" type="application/json">
+            <%- JSON.stringify(complaints) %>
+    </script>
 
     <script>
     const map = L.map('map').setView([31.6340, 74.8723], 12);
@@ -64,21 +73,66 @@
         document.getElementById("wardData").textContent
     );
 
-    L.geoJSON(wardGeoJSON, {
-        style: {
-            color: "red",
-            weight: 3,
-            fillOpacity: 0.3
-        }
-    }).addTo(map);
-    </script>
+    
+    const wardLayer = L.geoJSON(wardGeoJSON, {
+    style: {
+        color: "#111",
+        weight: 3,
+        fillOpacity: 0.3
+    }
+}).addTo(map);
 
-            </div>
-        </div>
-         <div id="copywright">
-            <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
-        </div>
-    </main>
+map.fitBounds(wardLayer.getBounds());
+
+    const complaintsData = JSON.parse(
+        document.getElementById("complaintsData").textContent
+    );
+
+    complaintsData.forEach(c => {
+
+        if (!c.location || !c.location.coordinates) return;
+
+        const lng = c.location.coordinates[0];
+        const lat = c.location.coordinates[1];
+
+        let color = "red";
+        if (c.status === "resolved") color = "orange";
+        if (c.status === "completed") color = "green";
+
+        const marker = L.circleMarker([lat, lng], {
+            radius: 4,
+            color: color,
+            fillColor: color,
+            fillOpacity: 0.9,
+  weight: 2
+        }).addTo(map);
+
+        marker.bindPopup(`
+            <strong>${c.locationText || "Complaint"}</strong><br>
+            Status: ${c.status}
+        `);
+    });
+    const legend = L.control({ position: "bottomright" });
+    legend.onAdd = function () {
+    const div = L.DomUtil.create("div", "info legend");
+
+    div.innerHTML = `
+        <strong>Status</strong><br>
+        <span style="color:red;">●</span> Pending<br>
+        <span style="color:orange;">●</span> Resolved<br>
+        <span style="color:green;">●</span> Completed
+    `;
+
+    div.style.background = "white";
+    div.style.padding = "10px";
+    div.style.borderRadius = "8px";
+
+    return div;
+    };
+
+legend.addTo(map);
+
+    </script>
     <script>
         const currentYear = new Date().getFullYear();
         document.getElementById('year').textContent = currentYear;

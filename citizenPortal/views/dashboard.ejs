@@ -20,14 +20,13 @@
             <div id="pg1-container">
                 <h1>Citizen Dashboard</h1>
                 <h2>Welcome <%= citizen.name %> , Ward: <%= citizen.ward_id %></h2>
-                <p>Your Ward Rank: <%= ward.rank %></p>
-                <a href="/leaderboard">View All Ranks</a>
+                
             </div>
         </div>
         <div id="page2">
+            <h2>Your Complaints</h2>
             <div id="pg2-container">
-                <h2>Your Complaints</h2>
-                <% complaints.forEach(complaint => { %>
+                <% yourComplaints.forEach(complaint => { %>
 
                 <div class="complaint-card">
 
@@ -53,9 +52,44 @@
                         <p style="color: green;">✔ Verified & Completed</p>
                     <% } %>
 
-  </div>
+                    </div>
+                    <% }) %>
+            </div>
+        </div>
+        <div id="page3">
+            <div id="pg3-container">
+                <h2>STATS</h2>
 
-<% }) %>
+                <div class="stats-container">
+
+                <div class="stat-card">
+                    <h3>🏆 Ward Rank</h3>
+                    <p>#<%= ward.rank %></p>
+                    <a href="/leaderboard">View All Ranks</a>
+                </div>
+
+                <div class="stat-card">
+                    <h3>📊 Total Ward Complaints</h3>
+                    <p><%= ward.complaintsCount %></p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>⏳ Pending</h3>
+                    <p><%= pendingCount %></p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>✅ Completed</h3>
+                    <p><%= completedCount %></p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>🙋 Your Complaints</h3>
+                    <p><%= yourComplaints.length %></p>
+                </div>
+
+                </div>
+
             </div>
         </div>
         <div id="copywright">
