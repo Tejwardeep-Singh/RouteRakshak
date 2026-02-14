@@ -29,22 +29,34 @@ router.get("/login", (req, res) => {
 
 
 router.get("/dashboard", citizenAuth, async (req, res) => {
+
   const ward = await Ward.findOne({
     wardNumber: req.session.citizen.ward_id
   });
-  const complaints = await Complaint.find({
+
+  const wardComplaints = await Complaint.find({
+    wardNumber: ward.wardNumber
+  });
+
+  const yourComplaints = await Complaint.find({
     userName: req.session.citizen.name
-  }).sort({ createdAt: -1 });
+  });
+
+  const pendingCount = wardComplaints.filter(c => c.status === "pending").length;
+  const completedCount = wardComplaints.filter(c => c.status === "completed").length;
 
   res.render(
     path.join(__dirname, "../../citizenPortal/views/dashboard.ejs"),
     {
       citizen: req.session.citizen,
-      complaints,
-      ward
+      ward,
+      yourComplaints,
+      pendingCount,
+      completedCount
     }
   );
 });
+
 
 router.post("/verify/:id", citizenAuth, async (req, res) => {
 
@@ -57,9 +69,49 @@ router.post("/verify/:id", citizenAuth, async (req, res) => {
 });
 
 
+// router.post("/register", async (req, res) => {
+
+//   const { name,area,mobile, email, password, latitude, longitude } = req.body;
+
+//   if (!latitude || !longitude) {
+//     return res.send("Location is required for registration");
+//   }
+
+//   const lat = parseFloat(latitude);
+//   const lng = parseFloat(longitude);
+
+//   const ward = await Ward.findOne({
+//     geometry: {
+//       $geoIntersects: {
+//         $geometry: {
+//           type: "Point",
+//           coordinates: [lng, lat]
+//         }
+//       }
+//     }
+//   });
+
+//   if (!ward) {
+//     return res.send("No ward found for your location");
+//   }
+
+//   const hashedPassword = await bcrypt.hash(password, 10);
+
+//   await Citizen.create({
+//     name,
+//     email,
+//     mobile,
+//     area,
+//     password: hashedPassword,
+//     ward_id: ward.wardNumber
+//   });
+
+//   res.redirect("/login");
+// });
+
 router.post("/register", async (req, res) => {
 
-  const { name,area,mobile, email, password, latitude, longitude } = req.body;
+  const { name, email, password, latitude, longitude } = req.body;
 
   if (!latitude || !longitude) {
     return res.send("Location is required for registration");
@@ -79,8 +131,9 @@ router.post("/register", async (req, res) => {
     }
   });
 
+  // 🚨 OUTSIDE CITY BLOCK
   if (!ward) {
-    return res.send("No ward found for your location");
+    return res.send("Registration allowed only for Amritsar residents.");
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -88,8 +141,6 @@ router.post("/register", async (req, res) => {
   await Citizen.create({
     name,
     email,
-    mobile,
-    area,
     password: hashedPassword,
     ward_id: ward.wardNumber
   });

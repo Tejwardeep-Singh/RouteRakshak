@@ -67,10 +67,15 @@ router.get("/adminComplaints", async (req, res) => {
     const complaints = await Complaint.find({ wardNumber })
       .sort({ createdAt: -1 });
 
+      const complaints2 = await Complaint.find({
+    wardNumber,
+    status: "pending"
+  }).sort({ createdAt: -1 });
     const ward = await Ward.findOne({ wardNumber });
 
     res.render(path.join(__dirname, "../../adminPortal/views/adminComplaint.ejs"), {
       complaints,
+      complaints2,
       ward
     });
 
