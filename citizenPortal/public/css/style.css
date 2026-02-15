@@ -248,3 +248,9 @@ nav{
     border: 2px solid #111;
     padding: 2%;
 }
+
+#routeMap{
+    height: 60vh;
+    width: 70vw;
+    border: 2px solid black;
+}

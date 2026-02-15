@@ -110,11 +110,22 @@ router.get("/complaint/:id", async (req, res) => {
 router.post("/resolve/:id", upload.single("afterImage"), async (req, res) => {
   try {
 
-    await Complaint.findByIdAndUpdate(req.params.id, {
-      afterImage: req.file.path,
-      status: "resolved"
-    });
-    await recalculateRanks();
+    const complaint = await Complaint.findById(req.params.id).populate("road");
+    if (!complaint) {
+      return res.send("Complaint not found");
+    }
+
+    
+    complaint.status = "resolved";
+    complaint.afterImage = req.file ? req.file.path : null;
+    await complaint.save();
+
+    
+    if (complaint.road) {
+      complaint.road.condition = "under_repair";
+      await complaint.road.save();
+    }
+
     res.redirect("/admin/adminComplaints");
 
   } catch (err) {

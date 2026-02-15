@@ -39,7 +39,10 @@ const complaintSchema = new mongoose.Schema({
     }
   },
 
-
+  road: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Road"
+  },
   beforeImage: {
     type: String
   },

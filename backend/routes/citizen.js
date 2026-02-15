@@ -1,6 +1,9 @@
 const express = require("express");
 const path = require("path");
 const bcrypt = require("bcrypt");
+const axios = require("axios");
+const turf = require("@turf/turf");
+
 
 const Citizen = require("../models/citizen");
 const WardOffice = require("../models/wardOffice");
@@ -8,6 +11,9 @@ const Ward = require("../models/ward");
 const Complaint = require("../models/complaint");
 const citizenAuth = require("../middleware/citizenAuth");
 const recalculateRanks = require("../utils/recalculateRanks");
+const Road = require("../models/road");
+
+
 
 const router = express.Router();
 
@@ -58,14 +64,45 @@ router.get("/dashboard", citizenAuth, async (req, res) => {
 });
 
 
-router.post("/verify/:id", citizenAuth, async (req, res) => {
+router.post("/verify/:id", async (req, res) => {
+  try {
 
-  await Complaint.findByIdAndUpdate(req.params.id, {
-    status: "completed",
-    verifiedByCitizen: true
-  });
-  await recalculateRanks();
-  res.redirect("/dashboard");
+    if (!req.session.citizen) {
+      return res.redirect("/login");
+    }
+
+    const complaint = await Complaint.findById(req.params.id);
+
+    if (!complaint) {
+      return res.send("Complaint not found");
+    }
+
+    
+    complaint.status = "completed";
+    complaint.verifiedByCitizen = true;
+    await complaint.save();
+
+    
+    const road = await Road.findOne({
+      geometry: {
+        $near: {
+          $geometry: complaint.location,
+          $maxDistance: 50
+        }
+      }
+    });
+
+    if (road) {
+      road.condition = "good";
+      await road.save();
+    }
+
+    res.redirect("/dashboard");
+
+  } catch (err) {
+    console.error(err);
+    res.send("Verification failed");
+  }
 });
 
 
@@ -131,7 +168,7 @@ router.post("/register", async (req, res) => {
     }
   });
 
-  // 🚨 OUTSIDE CITY BLOCK
+  
   if (!ward) {
     return res.send("Registration allowed only for Amritsar residents.");
   }
@@ -184,6 +221,131 @@ router.get("/leaderboard", async (req, res) => {
     { wards }
   );
 });
+
+
+router.post("/safe-route", async (req, res) => {
+
+  try {
+
+    const { source, destination } = req.body;
+
+    if (!source || !destination) {
+      return res.status(400).json({ error: "Source and destination required" });
+    }
+
+    
+    const isLatLng = (val) => val.includes(",");
+
+   
+    const geocode = async (place) => {
+
+      
+      if (isLatLng(place)) {
+        const parts = place.split(",");
+        return [parseFloat(parts[1]), parseFloat(parts[0])];
+      }
+
+      const response = await axios.get(
+        "https://api.openrouteservice.org/geocode/search",
+        {
+          params: {
+            text: place + ", Amritsar, Punjab, India",
+            size: 1
+          },
+          headers: {
+            Authorization: process.env.ORS_API_KEY
+          }
+        }
+      );
+
+      if (!response.data.features.length) {
+        throw new Error("Location not found: " + place);
+      }
+
+      return response.data.features[0].geometry.coordinates;
+    };
+
+    const start = await geocode(source);
+    const end = await geocode(destination);
+
+    
+    const orsResponse = await axios.post(
+      "https://api.openrouteservice.org/v2/directions/driving-car/geojson",
+      {
+        coordinates: [start, end]
+      },
+      {
+        headers: {
+          Authorization: process.env.ORS_API_KEY,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    const routes = orsResponse.data.features;
+
+    if (!routes || routes.length === 0) {
+      return res.status(400).json({ error: "No routes found" });
+    }
+
+    
+    const damagedRoads = await Road.find({
+      condition: { $in: ["damaged", "under_repair"] }
+    });
+
+   
+    let safestRoute = routes[0];
+    let lowestRisk = Infinity;
+
+    for (let route of routes) {
+
+      let risk = 0;
+      const routeCoords = route.geometry.coordinates;
+
+      damagedRoads.forEach(road => {
+
+        if (!road.geometry || !road.geometry.coordinates) return;
+
+        const roadCoords = road.geometry.coordinates;
+
+        routeCoords.forEach(rp => {
+          roadCoords.forEach(cp => {
+
+            const dx = rp[0] - cp[0];
+            const dy = rp[1] - cp[1];
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 0.0005) {  // ~50m
+              risk += 10;
+            }
+
+          });
+        });
+
+      });
+
+      if (risk < lowestRisk) {
+        lowestRisk = risk;
+        safestRoute = route;
+      }
+    }
+
+
+    return res.json({ route: safestRoute });
+
+  } catch (err) {
+
+    console.error("Routing Error:", err.message);
+
+    if (!res.headersSent) {
+      return res.status(500).json({
+        error: "Routing failed",
+        details: err.message
+      });
+    }
+  }
+});
+
 
 
 module.exports = router;

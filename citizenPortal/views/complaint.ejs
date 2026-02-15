@@ -13,6 +13,7 @@
             <div class="nr">
                 <a href="/">Home</a>
                 <a href="/map">Maps</a>
+                <a href="/dashboard">Dashboard</a>
             </div>
         </nav>
         <div id="page1">
@@ -22,25 +23,25 @@
 
                     <form id="complaintForm" action="/submitComplaint" method="POST" enctype="multipart/form-data">
 
-                        <!-- Road Photo -->
+                        
                         <div class="label">
                             <label>Upload Road Photo:</label>
                             <input type="file" id="roadImage" name="roadImage" accept="image/*" required>
                         </div>
 
-                        <!-- Message -->
+                        
                         <div class="label">
                             <label>Describe the Issue:</label>
                             <textarea id="message" name="message" placeholder="Explain road condition..." required></textarea>
                         </div>
 
-                        <!-- Location Text -->
+                        
                         <div class="label">
                             <label>Road Location (Area / Street Name):</label>
                             <input type="text" id="locationText" name="locationText" placeholder="Enter area name..." required>
                         </div>
 
-                        <!-- Hidden Coordinates -->
+                        
                         <input type="hidden" id="latitude" name="latitude">
                         <input type="hidden" id="longitude" name="longitude">
 

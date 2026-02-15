@@ -14,14 +14,22 @@
             <div class="nr">
                 <a href="/">Home</a>
                 <a href="/citizenComplaint">Complaint</a>
+                <a href="/dashboard">Dashboard</a>
             </div>
         </nav>
         <div id="page1">
             <div id="pg1-container">
-                <h1>Amritsar Ward Map</h1>
-                <div id="map"></div>
+                <div class="route-form">
+                    <input type="text" id="source" placeholder="Enter source" />
+                    <button onclick="useMyLocation()">Use My Location</button>
+                    <input type="text" id="destination" placeholder="Enter destination" />
+                    <button onclick="getSafeRoute()">Find Safest Route</button>
+                </div>
+
+                <div id="routeMap"></div>
             </div>
         </div>
+        <p style="color:red"><%= roads ? roads.length : "No roads variable" %></p>
         <div id="copywright">
             <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
         </div>
@@ -30,33 +38,107 @@
         const currentYear = new Date().getFullYear();
         document.getElementById('year').textContent = currentYear;
     </script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
-    <script src="/js/script.js"></script>
-    <script>
-        const map = L.map('map').setView([31.6340, 74.8723], 11);
-
-    // Base map (OpenStreetMap)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-
-    // Load ward GeoJSON
-    fetch('/data/amritsar_wards_final.geojson')
-      .then(res => res.json())
-      .then(data => {
-        L.geoJSON(data, {
-          style: {
-            color: '#2c3e50',
-            weight: 1,
-            fillColor: '#a3cb38',
-            fillOpacity: 0.6
-          }
-        }).addTo(map);
-      })
-      .catch(err => {
-        console.error('Failed to load ward data:', err);
-      });
+    <script id="roadsData" type="application/json">
+        const roadsData = <%- JSON.stringify(roads) %>;
+        console.log("ROADS:", roadsData);
     </script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        function useMyLocation() {
+
+    if (!navigator.geolocation) {
+        alert("Geolocation not supported");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+
+            document.getElementById("source").value = lat + "," + lng;
+
+            
+            L.marker([lat, lng])
+              .addTo(routeMap)
+              .bindPopup("You are here")
+              .openPopup();
+
+            routeMap.setView([lat, lng], 15);
+
+        },
+        function(error) {
+            alert("Location permission denied");
+        }
+    );
+}
+
+    const routeMap = L.map('routeMap').setView([31.6340, 74.8723], 12);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18
+    }).addTo(routeMap);
+
+    let currentRouteLayer;
+    const roadsData = JSON.parse(
+    document.getElementById("roadsData").textContent
+);
+console.log("ROADS:", roadsData);
+
+rroadsData.forEach(road => {
+
+    if (!road.geometry) return;
+
+    let condition = road.condition?.toLowerCase().trim();
+    let color = "green";
+
+    if (condition === "damaged") color = "red";
+    else if (condition === "under_repair") color = "orange";
+
+    L.geoJSON({
+        type: "Feature",
+        geometry: road.geometry
+    }, {
+        style: {
+            color: color,
+            weight: 4
+        }
+    }).addTo(routeMap);
+});
+
+
+
+    async function getSafeRoute() {
+
+        const source = document.getElementById("source").value;
+        const destination = document.getElementById("destination").value;
+
+        const response = await fetch("/safe-route", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ source, destination })
+        });
+
+        const data = await response.json();
+
+        if (currentRouteLayer) {
+            routeMap.removeLayer(currentRouteLayer);
+        }
+
+        currentRouteLayer = L.geoJSON(data.route, {
+            style: {
+                color: "blue",
+                weight: 6
+            }
+        }).addTo(routeMap);
+
+        routeMap.fitBounds(currentRouteLayer.getBounds());
+    }
+    
+    </script>
+    <script src="/js/script.js"></script>
 </body>
 </html>
