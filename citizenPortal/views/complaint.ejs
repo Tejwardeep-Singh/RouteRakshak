@@ -6,53 +6,59 @@
     <link rel="stylesheet" href="/css/style.css">
     <title>Route Rakshak | Citizen </title>
 </head>
-<body>
+<body class="complaint-page">
     <main>
-        <nav>
-            <div class="nl"></div>
-            <div class="nr">
+
+        <nav class="main-nav">
+            <div class="logo">Route Rakshak</div>
+            <div class="nav-links">
                 <a href="/">Home</a>
                 <a href="/map">Maps</a>
                 <a href="/dashboard">Dashboard</a>
             </div>
         </nav>
-        <div id="page1">
-            <div id="pg1-container">
-                <div class="complaint-container">
-                    <h2>Report Road Issue</h2>
 
-                    <form id="complaintForm" action="/submitComplaint" method="POST" enctype="multipart/form-data">
+        <section class="complaint-section">
 
-                        
-                        <div class="label">
-                            <label>Upload Road Photo:</label>
-                            <input type="file" id="roadImage" name="roadImage" accept="image/*" required>
-                        </div>
+            <div class="complaint-card">
 
-                        
-                        <div class="label">
-                            <label>Describe the Issue:</label>
-                            <textarea id="message" name="message" placeholder="Explain road condition..." required></textarea>
-                        </div>
+                <h1>🚧 Report Road Issue</h1>
+                <p>Help us improve your ward by reporting damaged roads</p>
 
-                        
-                        <div class="label">
-                            <label>Road Location (Area / Street Name):</label>
-                            <input type="text" id="locationText" name="locationText" placeholder="Enter area name..." required>
-                        </div>
+                <form action="/submitComplaint" method="POST" enctype="multipart/form-data">
 
-                        
-                        <input type="hidden" id="latitude" name="latitude">
-                        <input type="hidden" id="longitude" name="longitude">
+                    <div class="form-group">
+                        <label>Upload Road Photo</label>
+                        <input type="file" name="roadImage" accept="image/*" required>
+                    </div>
 
-                        <button type="submit">Submit Complaint</button>
-                    </form>
-                </div>
+                    <div class="form-group">
+                        <label>Describe the Issue</label>
+                        <textarea name="message" placeholder="Explain road condition..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Road Location (Area / Street Name)</label>
+                        <input type="text" name="locationText" placeholder="Enter area name..." required>
+                    </div>
+
+                    <input type="hidden" id="latitude" name="latitude">
+                    <input type="hidden" id="longitude" name="longitude">
+
+                    <button type="submit" class="submit-btn">
+                        Submit Complaint
+                    </button>
+
+                </form>
+
             </div>
-        </div>
+
+        </section>
+
         <div id="copywright">
             <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
         </div>
+
     </main>
     <script>
         if (navigator.geolocation) {

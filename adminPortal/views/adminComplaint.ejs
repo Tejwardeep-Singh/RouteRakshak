@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/admin/css/style.css">
     <title>Route Rakshak | Admin </title>
 </head>
 <body>
@@ -14,44 +14,63 @@
             <div class="nl"></div>
             <div class="nr">
                 <a href="/admin">Home</a>
-                <a href="/admin/login">Login</a>
                 <a href="/admin/dashboard">Dashboard</a>
                 <a href="/admin/logout">Logout</a>
             </div>
         </nav>
-        <div id="page1">
-            <div id="pg1-container">
-                <h2>Ward <%= ward.wardNumber %> Complaints</h2>
+        <section class="admin-complaint-section">
 
-            <!-- 🗺️ Map -->
+    <div class="admin-header">
+        <h1>Ward <%= ward.wardNumber %> Complaints</h1>
+        <p>Monitor and manage reported issues</p>
+    </div>
+
+    <div class="admin-content">
+
+
+        <div class="admin-map-container">
             <div id="map"></div>
+        </div>
 
-            <!-- 📋 Complaint Tiles -->
-            <div>
+
+        <div class="admin-complaint-list">
+
             <% if (complaints2.length === 0) { %>
-                <p>No complaints found.</p>
+                <div class="empty-state">
+                    <div class="empty-icon">📭</div>
+                    <h3>No Complaints Found</h3>
+                    <p>This ward currently has no reported issues.</p>
+                    <span class="empty-subtext">Everything looks good here 👌</span>
+                </div>
             <% } %>
 
             <% complaints2.forEach(complaint => { %>
-                <div class="complaint-tile">
+                <div class="admin-complaint-card">
 
-                    <h3><%= complaint.locationText %></h3>
+                    <div class="card-header">
+                        <h3><%= complaint.locationText %></h3>
+                        <span class="status-badge <%= complaint.status %>">
+                            <%= complaint.status %>
+                        </span>
+                    </div>
 
-                    <span class="status-badge <%= complaint.status %>">
-                        <%= complaint.status %>
-                    </span>
+                    <p class="card-message">
+                        <%= complaint.message %>
+                    </p>
 
-                    <p><%= complaint.message %></p>
-
-                    <a href="/admin/complaint/<%= complaint._id %>">
+                    <a href="/admin/complaint/<%= complaint._id %>" class="view-link">
                         View Details →
                     </a>
 
                 </div>
             <% }) %>
-            </div>
-            </div>
+
         </div>
+
+    </div>
+
+</section>
+
          <div id="copywright">
             <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
         </div>

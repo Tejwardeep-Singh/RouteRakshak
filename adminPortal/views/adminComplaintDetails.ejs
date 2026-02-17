@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/admin/css/style.css">
     <title>Route Rakshak | Admin Complaints </title>
 </head>
 <body>
@@ -19,22 +19,57 @@
             </div>
         </nav>
         <div id="page1">
-            <div id="pg1-container">
-                <h2>Complaint Details</h2>
-
-                <p><strong>Location:</strong> <%= complaint.locationText %></p>
-                <p><strong>Status:</strong> <%= complaint.status %></p>
-                <p><strong>Message:</strong> <%= complaint.message %></p>
-
-                <h3>Before Image</h3>
-                <img src="<%= complaint.beforeImage %>" width="300">
-
-                <form action="/admin/resolve/<%= complaint._id %>" method="POST" enctype="multipart/form-data">
-                <label>Upload After Repair Image:</label>
-                <input type="file" name="afterImage" required>
-                <button type="submit">Mark as Resolved</button>
-                </form>
+            <div class="admin-detail-wrapper">
+            <div class="admin-detail-header">
+                <h1>Complaint Details</h1>
+                <span class="status-badge <%= complaint.status %>">
+                    <%= complaint.status %>
+                </span>
             </div>
+
+            <div class="admin-detail-grid">
+                <div class="admin-detail-info">
+
+                    <div class="info-card">
+                        <h3>📍 Location</h3>
+                        <p><%= complaint.locationText %></p>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>📝 Description</h3>
+                        <p><%= complaint.message %></p>
+                    </div>
+
+                </div>
+                <div class="admin-detail-media">
+
+                    <div class="media-card">
+                        <h3>Before Repair</h3>
+                        <img src="<%= complaint.beforeImage %>" alt="Before Repair">
+                    </div>
+
+                    <% if (complaint.status !== "completed") { %>
+                        <div class="resolve-card">
+                            <h3>Upload After Repair Image</h3>
+
+                            <form action="/admin/resolve/<%= complaint._id %>" 
+                                method="POST" 
+                                enctype="multipart/form-data">
+
+                                <input type="file" name="afterImage" required>
+
+                                <button type="submit" class="resolve-btn">
+                                    Mark as Resolved
+                                </button>
+                            </form>
+                        </div>
+                    <% } %>
+
+                </div>
+
+            </div>
+
+        </div>
         </div>
          <div id="copywright">
             <p>&copy; <span id="year"></span> ATES Squad. All rights reserved.</p>
