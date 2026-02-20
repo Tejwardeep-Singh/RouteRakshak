@@ -4,7 +4,8 @@
   "description": "Route Rakshak - Civic Road Complaint & Safe Route System",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start:citizen": "node app-citizen.js",
+    "start:admin": "node app-admin.js"
   },
   "dependencies": {
     "@turf/turf": "^7.3.4",
