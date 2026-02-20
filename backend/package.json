@@ -1,4 +1,11 @@
 {
+  "name": "route-rakshak",
+  "version": "1.0.0",
+  "description": "Route Rakshak - Civic Road Complaint & Safe Route System",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "@turf/turf": "^7.3.4",
     "axios": "^1.13.5",
