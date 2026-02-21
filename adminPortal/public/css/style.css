@@ -626,3 +626,12 @@ nav {
   color: #155724;
 }
 
+.logo{
+  display: flex;
+  align-items: center;
+  gap: 2vh;
+}
+.logo img{
+  height:6vh;
+  width: 6vh;
+}

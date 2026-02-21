@@ -96,7 +96,7 @@ router.post("/verify/:id", async (req, res) => {
       road.condition = "good";
       await road.save();
     }
-
+    await recalculateRanks();
     res.redirect("/dashboard");
 
   } catch (err) {

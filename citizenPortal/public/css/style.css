@@ -852,3 +852,13 @@ nav a {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+.logo{
+  display: flex;
+  align-items: center;
+  gap: 2vh;
+}
+.logo img{
+  height:6vh;
+  width: 6vh;
+}

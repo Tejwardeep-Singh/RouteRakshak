@@ -148,7 +148,8 @@ router.post("/resolve/:id", upload.single("afterImage"), async (req, res) => {
       complaint.road.condition = "under_repair";
       await complaint.road.save();
     }
-
+    await recalculateRanks();
+    
     res.redirect("/admin/adminComplaints");
 
   } catch (err) {

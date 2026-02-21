@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
     <link rel="stylesheet" href="/css/style.css">
     <title>Route Rakshak | Citizen </title>
 </head>
 <body>
     <main>
         <nav>
-            <div class="nl"></div>
+            <div class="logo"><img src="/images/logo.png" alt="">Route Rakshak</div>
             <div class="nr">
                 <a href="/">Home</a>
                 <a href="/login">Login</a>
@@ -33,6 +37,19 @@
                 </div>
 
                 <div id="routeMap"></div>
+                <div id="remainingDistanceBox" style="
+                        position:absolute;
+                        top:20px;
+                        right:20px;
+                        background:white;
+                        padding:10px 15px;
+                        border-radius:8px;
+                        font-weight:600;
+                        z-index:1000;
+                        display:none;
+                    ">
+                        Remaining Distance: --
+                    </div>
 
             </div>
             <div id="routeLoader" class="route-loader">
@@ -50,6 +67,10 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
+        let destinationLat = null;
+        let destinationLng = null;
+        let watchId = null;
+        let userMarker = null;
         const roadsData = JSON.parse('<%- JSON.stringify(roads || []) %>');
 
         const map = L.map('routeMap').setView([31.6340, 74.8723], 12);
@@ -164,6 +185,15 @@
 
                 routeLayer.bringToFront();
                 map.fitBounds(routeLayer.getBounds());
+                
+                destinationLat = routeCoords[routeCoords.length - 1][0];
+                destinationLng = routeCoords[routeCoords.length - 1][1];
+
+                
+                document.getElementById("remainingDistanceBox").style.display = "block";
+
+                
+                startLiveTracking();
 
             } catch (error) {
                 console.error(error);
@@ -190,7 +220,65 @@
         };
 
         legend.addTo(map);
+        function startLiveTracking() {
 
+        if (!navigator.geolocation) {
+            alert("Geolocation not supported");
+            return;
+        }
+
+        if (watchId) {
+            navigator.geolocation.clearWatch(watchId);
+        }
+
+        watchId = navigator.geolocation.watchPosition(position => {
+
+            const currentLat = position.coords.latitude;
+            const currentLng = position.coords.longitude;
+
+            // Move or create user marker
+            if (!userMarker) {
+                userMarker = L.marker([currentLat, currentLng])
+                    .addTo(markerLayer)
+                    .bindPopup("You are moving")
+                    .openPopup();
+            } else {
+                userMarker.setLatLng([currentLat, currentLng]);
+            }
+
+            updateRemainingDistance(currentLat, currentLng);
+
+        }, error => {
+            console.error(error);
+        }, {
+            enableHighAccuracy: true
+        });
+    }
+
+    function updateRemainingDistance(currentLat, currentLng) {
+
+        const distanceMeters = map.distance(
+            [currentLat, currentLng],
+            [destinationLat, destinationLng]
+        );
+
+        const distanceKm = (distanceMeters / 1000).toFixed(2);
+
+        document.getElementById("remainingDistanceBox").innerText =
+            "Remaining Distance: " + distanceKm + " km";
+
+        if (distanceMeters < 20) {
+            document.getElementById("remainingDistanceBox").innerText =
+                "You have reached your destination!";
+
+            navigator.geolocation.clearWatch(watchId);
+        }
+    }
+    window.addEventListener("beforeunload", () => {
+        if (watchId) {
+            navigator.geolocation.clearWatch(watchId);
+        }
+    });
     </script>
 
      <script>
