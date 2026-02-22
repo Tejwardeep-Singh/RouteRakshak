@@ -13,8 +13,11 @@
 <body>
     <main>
         <nav class="main-nav">
+            <div class="menu-toggle" onclick="toggleMenu()">
+                ☰
+            </div>
             <div class="logo"><img src="/images/logo.png" alt="">Route Rakshak</div>
-            <div class="nav-links">
+            <div class="nav-links" id="navLinks">
                 <a href="/">Home</a>
             </div>
         </nav>
@@ -46,9 +49,12 @@
                         <input type="email" name="email" placeholder="Enter your email" required>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group password-group">
                         <label>Password</label>
-                        <input type="password" name="password" placeholder="Create a password" required>
+                        <div class="password-wrapper">
+                            <input type="password" id="passwordInput" name="password" placeholder="Enter your password" required>
+                            <span class="toggle-password" onclick="togglePassword()">👁</span>
+                        </div>
                     </div>
 
                     <input type="hidden" name="latitude" id="latitude">

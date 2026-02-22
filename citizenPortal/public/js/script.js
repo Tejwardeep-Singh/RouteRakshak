@@ -1,3 +1,21 @@
+function togglePassword() {
+    const input = document.getElementById("passwordInput");
+
+    if (!input) return;
+
+    if (input.type === "password") {
+        input.type = "text";
+    } else {
+        input.type = "password";
+    }
+}
+
+function toggleMenu() {
+    console.log("CLICKED");
+    const nav = document.getElementById("navLinks");
+    nav.classList.toggle("active");
+}
+
 let detectedWardNumber = null;
 
 function openWardModal() {
@@ -82,7 +100,7 @@ async function confirmWard() {
 
 
 
-    const map = L.map('map').setView([31.6340, 74.8723], 11);
+ const map = L.map('map').setView([31.6340, 74.8723], 11);
 
     
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -173,5 +191,4 @@ form.addEventListener("submit", async function (e) {
         alert("Something went wrong.");
     }
 });
-
 
