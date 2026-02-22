@@ -672,6 +672,9 @@ nav {
     font-size: 0.9rem;
 }
 
+.admin-nr a{
+  color: wheat;
+}
 @media (max-width: 768px) {
 
     nav {
