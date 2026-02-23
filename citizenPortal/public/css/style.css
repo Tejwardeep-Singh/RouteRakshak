@@ -120,6 +120,11 @@ nav {
   padding: 80px 10%;
   background: white;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5vh;
 }
 
 #page2 h2 {
@@ -134,7 +139,10 @@ nav {
   gap: 30px;
   flex-wrap: wrap;
 }
-
+#page2 a{
+  color: var(--primary);
+  font-weight: 600;
+}
 .ward-card {
   background: var(--bg);
   padding: 30px;
