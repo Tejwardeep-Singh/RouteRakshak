@@ -272,9 +272,10 @@ router.post("/update-ward", async (req, res) => {
 
         await Citizen.findByIdAndUpdate(
             req.session.citizen.id,
-            { wardNumber: req.body.newWard }
+            { ward_id: req.body.newWard }
         );
 
+        
         req.session.citizen.ward_id = req.body.newWard;
 
         res.json({ success: true });
