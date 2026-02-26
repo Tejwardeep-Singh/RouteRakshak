@@ -909,7 +909,20 @@ nav a {
     color: #8c4a22;
     user-select: none;
 }
-
+#page4{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100vw;
+  height: auto;
+  padding: 4% 0;
+}
+#page4 h1{
+  color: var(--dark-rust);
+  font-size: 6vh;
+  font-weight: 900;
+}
 #contact-pg4{
     height: auto;
     width: 100vw;
@@ -927,8 +940,8 @@ nav a {
     justify-content: center;
     align-items: center;
     padding: 4%;
-    background-color: #111;
-    border-radius: 50px;
+    background-color: var(--primary);
+    border-radius: 10px;
     box-shadow: 0 8px 16px 0 rgba(140, 79, 0, 0.647);
     z-index: 996;
 }
@@ -957,9 +970,9 @@ nav a {
     height: 50px;
     border: none;
     outline: none;
-    font-weight: 900;
-    color: #111;
-    border-radius: 50px;
+    font-weight: 600;
+    color: var(--dark-rust);
+    border-radius: 10px;
     padding: 2%;
 }
 
@@ -967,36 +980,39 @@ nav a {
     height: 140px;
     width: 400px;
     padding: 2%;
-    border-radius: 20px;
+    border-radius: 10px;
     border: none;
     outline: none;
+    color: var(--dark-rust);
+    font-weight: 600;
 
 }
 
 .contact-inputs:focus{
-    border: solid yellow 2px;
-    box-shadow: 0 8px 16px 0 rgba(251, 255, 0, 0.647);
+    border: solid var(--dark-rust);
+    box-shadow: 0 8px 16px 0 var(--dark-rust);
 }
 
 .contact-left textarea:focus{
-    border: solid yellow 2px;
-    box-shadow: 0 8px 16px 0 rgba(251, 255, 0, 0.647);
+    border: solid var(--dark-rust);
+    box-shadow: 0 8px 16px 0 var(--dark-rust);
 }
 
 .contact-left button{
     display:flex;
     align-items: center;
-    padding: 2%;
+    padding: 2% 4%;
     font-size: 2vw;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: 900;
+    font-weight: 800;
     gap: 10px;
     border: none;
-    border-radius: 50px;
+    border-radius: 5px;
     background:wheat;
     cursor: pointer;
     height: 5vh;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.575);
+    color: var(--primary);
 }
 
 @media (max-width: 768px) {
@@ -1058,6 +1074,9 @@ nav a {
             font-size: medium;
             font-weight: 900;
             font-family: 'Times New Roman', Times, serif;
+        }
+        #page4 h1{
+          font-size: 3vh;
         }
     
 }
