@@ -1,4 +1,11 @@
 import pathway as pw
+from pathlib import Path
+import os
+
+BASE_DIR = Path(__file__).resolve().parent
+EVENT_FILE = BASE_DIR / "events.jsonl"
+
+
 
 class ComplaintSchema(pw.Schema):
     wardNumber: int
@@ -12,7 +19,7 @@ score_map = {
 }
 
 table = pw.io.jsonlines.read(
-    "events.jsonl",
+    str(EVENT_FILE),
     schema=ComplaintSchema,
     mode="streaming"
 )
@@ -34,9 +41,10 @@ aggregated = scored.groupby(
     performanceScore=pw.reducers.sum(pw.this.score)
 )
 
+RANK_FILE = BASE_DIR / "ranking.json"
+
 pw.io.jsonlines.write(
     aggregated,
-    "ranking.json"
+    str(RANK_FILE)
 )
-
 pw.run()

@@ -110,7 +110,7 @@ router.post("/verify/:id", async (req, res) => {
       await road.save();
     }
     // await recalculateRanks();
-    const eventsPath = path.join(__dirname, "../../events.jsonl");
+    const eventsPath = path.join(__dirname, "../pathway/events.jsonl");
     fs.appendFileSync(
       eventsPath,
       JSON.stringify({

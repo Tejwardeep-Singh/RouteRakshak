@@ -175,7 +175,7 @@ router.post("/resolve/:id", upload.single("afterImage"), async (req, res) => {
       await complaint.road.save();
     }
     // await recalculateRanks();
-    const eventsPath = path.join(__dirname, "../../events.jsonl");
+    const eventsPath = path.join(__dirname, "../pathway/events.jsonl");
     fs.appendFileSync(
       eventsPath,
       JSON.stringify({

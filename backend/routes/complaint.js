@@ -96,7 +96,7 @@ router.post("/submitComplaint", upload.single("roadImage"), async (req, res) => 
       verifiedByCitizen: false,
       road: road._id
     });
-    const eventsPath = path.join(__dirname, "../../events.jsonl");
+    const eventsPath = path.join(__dirname, "../pathway/events.jsonl");
 
     fs.appendFileSync(
       eventsPath,
