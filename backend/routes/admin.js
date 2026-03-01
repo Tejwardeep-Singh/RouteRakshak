@@ -174,7 +174,7 @@ router.post("/resolve/:id", upload.single("afterImage"), async (req, res) => {
       complaint.road.condition = "under_repair";
       await complaint.road.save();
     }
-    // await recalculateRanks();
+     await recalculateRanks();
     const eventsPath = path.join(__dirname, "../pathway/events.jsonl");
     fs.appendFileSync(
       eventsPath,
