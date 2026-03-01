@@ -11,22 +11,22 @@ async function calculateRanks() {
       wardNumber: ward.wardNumber
     });
 
-    let score = 0;
+    let performanceScore = 0;
     let completedCount = 0;
 
     complaints.forEach(c => {
 
       if (c.status === "completed") {
-        score += 10;
+        performanceScore += 10;
         completedCount += 1;
       }
 
       if (c.status === "resolved") {
-        score += 5;
+        performanceScore += 5;
       }
 
       if (c.status === "pending") {
-        score -= 5;
+        performanceScore -= 5;
       }
 
     });
@@ -34,14 +34,14 @@ async function calculateRanks() {
     await Ward.updateOne(
       { wardNumber: ward.wardNumber },
       {
-        score: score,
+        performanceScore: performanceScore,
         completedCount: completedCount
       }
     );
   }
 
   const sorted = await Ward.find().sort({
-    score: -1,
+    performanceScore: -1,
     completedCount: -1
   });
 
