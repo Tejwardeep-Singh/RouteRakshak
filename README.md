@@ -169,24 +169,26 @@ npm install
 
 # create env
 
-  MONGO_URI=your_mongodb_connection_string
-  SESSION_SECRET=your_secret_key
-  CLOUD_NAME=CloudName
-  CLOUD_API_KEY=CloudApiKey
-  CLOUD_API_SECRET=CloudApiSecret
+  - MONGO_URI=your_mongodb_connection_string
+  - SESSION_SECRET=your_secret_key
+  - CLOUD_NAME=CloudName
+  - CLOUD_API_KEY=CloudApiKey
+  - CLOUD_API_SECRET=CloudApiSecret
 
+```bash
   cd backend
   npx nodemon app-citizen.js
   npx nodemon app-admin.js
+```
 
-Future Enhancements
-  AI-based complaint prioritization
-  Real-time analytics dashboard
-  Mobile application
-  Geo-fencing for automatic ward detection
-  Predictive infrastructure analysis
+# Future Enhancements
+  - AI-based complaint prioritization
+  - Real-time analytics dashboard
+  - Mobile application
+  - Geo-fencing for automatic ward detection
+  - Predictive infrastructure analysis
 
-🌍 Impact
+# Impact
 
   Route Rakshak enables:
     - Faster issue resolution
@@ -194,13 +196,13 @@ Future Enhancements
     - Data-driven decision making
     - Stronger citizen participation
 
-🧠 Engineering Highlights
+#  Engineering Highlights
   - Designed a scalable complaint lifecycle system  
   - Built a dynamic ranking engine for governance evaluation  
   - Integrated geo-spatial ward mapping using QGIS  
   - Implemented role-based access for citizens and administrators  
 
- 👥 Team
+#  Team
 
 - Tejwardeep Singh – Lead Backend Developer  
 - Eklavya – Backend Developer  
