@@ -165,6 +165,7 @@ Councillor Action → Status Update → Ranking Engine → Dashboard Update
 git clone https://github.com/Tejwardeep-Singh/RouteRakshak.git
 cd RouteRakshak
 npm install
+```
 
 # create env
 
