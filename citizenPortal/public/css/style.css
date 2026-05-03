@@ -193,7 +193,7 @@ nav {
 }
 .leaderboard-header {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1fr;
+  grid-template-columns: 2fr 2fr 1fr;
   padding: 15px 20px;
   font-weight: 600;
   background: #e9e2d9;
@@ -202,7 +202,7 @@ nav {
 }
 .ward-row {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1fr;
+  grid-template-columns: 2fr 2fr 1fr;
   padding: 18px 20px;
   margin-bottom: 12px;
   background: white;
