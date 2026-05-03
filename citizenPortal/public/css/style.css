@@ -1078,6 +1078,16 @@ nav a {
         #page4 h1{
           font-size: 3vh;
         }
+        filter-buttons {
+            justify-content: center;
+        }
+
+        .filter-buttons button {
+            flex: 1 1 auto;            
+            text-align: center;
+            font-size: 13px;
+            padding: 8px 12px;
+        }
     
 }
 
@@ -1086,6 +1096,7 @@ nav a {
     display: flex;
     gap: 12px;
     margin: 20px 0 30px;
+    flex-wrap: wrap;
 }
 
 .filter-buttons button {
@@ -1098,6 +1109,7 @@ nav a {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.25s ease;
+    white-space: nowrap; 
 }
 
 
@@ -1120,3 +1132,4 @@ nav a {
 .complaint-card {
     transition: all 0.3s ease;
 }
+
