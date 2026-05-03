@@ -82,10 +82,16 @@
         <section class="complaints-section">
             <h2>Your Complaints</h2>
 
+            <div class="filter-buttons">
+                <button onclick="filterComplaints('all')">All</button>
+                <button onclick="filterComplaints('pending')">Pending</button>
+                <button onclick="filterComplaints('resolved')">Resolved</button>
+                <button onclick="filterComplaints('completed')">Completed</button>
+            </div>
             <div class="complaints-grid">
                 <% yourComplaints.forEach(complaint => { %>
 
-                <div class="complaint-card">
+                <div class="complaint-card" data-status="<%= complaint.status %>">
 
                     <div class="complaint-header">
                         <span><strong>Location:</strong> <%= complaint.locationText %></span>

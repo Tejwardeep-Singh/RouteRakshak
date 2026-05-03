@@ -1080,3 +1080,43 @@ nav a {
         }
     
 }
+
+
+.filter-buttons {
+    display: flex;
+    gap: 12px;
+    margin: 20px 0 30px;
+}
+
+.filter-buttons button {
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid #e0e0e0;
+    background: #f5f5f5;
+    color: #444;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+
+.filter-buttons button:hover {
+    background: #e8e8e8;
+    transform: translateY(-1px);
+}
+
+
+.filter-buttons button.active {
+    background:#8c4a22;   /* dark slate */
+    color: #fff;
+    border-color: #1f2937;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.filter-buttons button{
+  background-color:#FFFFFF;
+}
+
+.complaint-card {
+    transition: all 0.3s ease;
+}

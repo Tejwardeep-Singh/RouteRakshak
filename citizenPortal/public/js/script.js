@@ -196,3 +196,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+function filterComplaints(status) {
+    const cards = document.querySelectorAll(".complaint-card");
+
+    cards.forEach(card => {
+        const cardStatus = card.getAttribute("data-status");
+
+        if (status === "all" || cardStatus === status) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+    });
+}
+
+function filterComplaints(status) {
+    const cards = document.querySelectorAll(".complaint-card");
+    const buttons = document.querySelectorAll(".filter-buttons button");
+
+    // Highlight active button
+    buttons.forEach(btn => btn.classList.remove("active"));
+    event.target.classList.add("active");
+
+    // Filter cards
+    cards.forEach(card => {
+        const cardStatus = card.getAttribute("data-status");
+
+        if (status === "all" || cardStatus === status) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+    });
+}
